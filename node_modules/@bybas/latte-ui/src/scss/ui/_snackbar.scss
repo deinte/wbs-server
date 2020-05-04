@@ -1,0 +1,153 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--snackbar-elevation: var(--elevation-8);
+}
+
+.snackbar
+{
+	position: fixed;
+	display: flex;
+	margin: var(--content-gutter);
+	max-width: 540px;
+	padding: 15px 24px;
+	align-items: center;
+	justify-content: flex-start;
+	background: #{latte-rgb(var(--dark))};
+	border-radius: var(--border-radius);
+	box-shadow: var(--snackbar-elevation);
+	color: #{latte-rgb(var(--light))};
+	transition: 240ms var(--ease-swift-out);
+	transition-property: opacity, transform;
+
+	&:not(.is-open)
+	{
+		opacity: 0;
+	}
+
+	@include compact
+	{
+		max-width: calc(100vw - (var(--content-gutter) * 2));
+		width: 100%;
+	}
+
+	.snackbar-body:not(:last-child)
+	{
+		margin-right: 15px;
+	}
+
+	.btn
+	{
+		margin-left: auto;
+		margin-right: -15px;
+	}
+}
+
+.snackbar-bottom
+{
+	left: 50%;
+	bottom: 0;
+	transform: translate3d(calc(-50% - var(--content-gutter)), 0, 0);
+
+	&:not(.is-open)
+	{
+		transform: translate3d(calc(-50% - var(--content-gutter)), 3px, 0) scale3d(.9, .9, 1);
+	}
+}
+
+.snackbar-bottom-left
+{
+	left: 0;
+	bottom: 0;
+
+	&:not(.is-open)
+	{
+		transform: translate3d(0, 3px, 0) scale3d(.9, .9, 1);
+	}
+}
+
+.snackbar-bottom-right
+{
+	right: 0;
+	bottom: 0;
+
+	&:not(.is-open)
+	{
+		transform: translate3d(0, 3px, 0) scale3d(.9, .9, 1);
+	}
+}
+
+.snackbar-top
+{
+	top: 0;
+	left: 50%;
+	transform: translate3d(calc(-50% - var(--content-gutter)), 0, 0);
+
+	&:not(.is-open)
+	{
+		transform: translate3d(calc(-50% - var(--content-gutter)), -3px, 0) scale3d(.9, .9, 1);
+	}
+}
+
+.snackbar-top-left
+{
+	top: 0;
+	left: 0;
+
+	&:not(.is-open)
+	{
+		transform: translate3d(0, -3px, 0) scale3d(.9, .9, 1);
+	}
+}
+
+.snackbar-top-right
+{
+	top: 0;
+	right: 0;
+
+	&:not(.is-open)
+	{
+		transform: translate3d(0, -3px, 0) scale3d(.9, .9, 1);
+	}
+}
+
+@include compact
+{
+	.snackbar-bottom,
+	.snackbar-bottom-left,
+	.snackbar-bottom-right
+	{
+		left: 0;
+		right: 0;
+		bottom: 0;
+		transform: none;
+
+		&:not(.is-open)
+		{
+			transform: translate3d(0, 3px, 0) scale3d(.9, .9, 1);
+		}
+	}
+
+	.snackbar-top,
+	.snackbar-top-left,
+	.snackbar-top-right
+	{
+		top: 0;
+		left: 0;
+		right: 0;
+		transform: none;
+
+		&:not(.is-open)
+		{
+			transform: translate3d(0, -3px, 0) scale3d(.9, .9, 1);
+		}
+	}
+}

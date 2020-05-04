@@ -1,0 +1,81 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--radio-background: var(--color-primary);
+	--radio-foreground: var(--color-primary-foreground);
+}
+
+input[type=radio].radio-button
+{
+	position: relative;
+	display: inline-block;
+	appearance: none;
+	height: 24px;
+	width: 24px;
+	flex: 0 0 auto;
+	background: transparent;
+	border: 2px solid #{latte-rgb(var(--form-field-outline))};
+	border-radius: 12px;
+	cursor: pointer;
+	outline: none;
+	transition: all 180ms var(--ease-swift-out);
+	vertical-align: middle;
+
+	&::before
+	{
+		position: absolute;
+		display: block;
+		height: 14px;
+		margin: 3px;
+		width: 14px;
+		content: "";
+		background: transparent;
+		border-radius: 7px;
+		transition: inherit;
+	}
+
+	&:hover::before
+	{
+		background: #{latte-rgb(var(--form-field-outline))};
+	}
+
+	&:focus
+	{
+		border-color: #{latte-rgb(var(--radio-background))};
+	}
+
+	&:checked
+	{
+		border-color: #{latte-rgb(var(--radio-background))};
+
+		&::before
+		{
+			background: #{latte-rgb(var(--radio-background))};
+		}
+	}
+
+	&[disabled]
+	{
+		cursor: not-allowed;
+		filter: grayscale(100%);
+		opacity: .5;
+		pointer-events: none;
+	}
+}
+
+@each $type in $theme-color-types
+{
+	.radio-button-#{$type}
+	{
+		--radio-background: var(--color-#{$type});
+		--radio-foreground: var(--color-#{$type}-foreground);
+	}
+}

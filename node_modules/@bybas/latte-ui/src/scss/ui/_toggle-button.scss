@@ -1,0 +1,79 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--toggle-background: var(--color-primary);
+	--toggle-foreground: var(--color-primary-foreground);
+}
+
+.toggle-button
+{
+	position: relative;
+	display: inline-block;
+	height: 24px;
+	width: 36px;
+	appearance: none;
+	flex: 0 0 auto;
+	border: 2px solid #{latte-rgb(var(--form-field-outline))};
+	border-radius: 12px;
+	cursor: pointer;
+	outline: none;
+	transition: 240ms var(--ease-swift-out);
+	transition-property: background, border-color;
+	vertical-align: middle;
+
+	&::before
+	{
+		display: block;
+		height: 12px;
+		margin: 4px;
+		width: 12px;
+		content: "";
+		background: #{latte-rgb(var(--form-field-outline))};
+		border-radius: 7px;
+		transform: translate3d(0, 0, 0);
+		transition: inherit;
+		transition-property: background, transform;
+	}
+
+	&:focus
+	{
+		border-color: #{latte-rgb(var(--toggle-background))};
+	}
+
+	&:checked
+	{
+		background: #{latte-rgb(var(--toggle-background))};
+		border-color: #{latte-rgb(var(--toggle-background))};
+
+		&::before
+		{
+			background: #{latte-rgb(var(--toggle-foreground))};
+			transform: translate3d(12px, 0, 0);
+		}
+	}
+
+	&[disabled]
+	{
+		cursor: not-allowed;
+		filter: grayscale(100%);
+		opacity: .5;
+		pointer-events: none;
+	}
+}
+
+@each $type in $theme-color-types
+{
+	.toggle-button-#{$type}
+	{
+		--toggle-background: var(--color-#{$type});
+		--toggle-foreground: var(--color-#{$type}-foreground);
+	}
+}

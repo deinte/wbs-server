@@ -1,0 +1,85 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+nav.pagination
+{
+	position: relative;
+	display: flex;
+	padding: 0;
+	align-items: center;
+	flex-flow: row;
+
+	.pagination-item
+	{
+		--icon-size: 18px;
+
+		display: block;
+		padding: 0 6px;
+		height: 30px;
+		min-width: 30px;
+		flex: 0 0 auto;
+		background: transparent;
+		border: 0;
+		border-radius: var(--border-radius);
+		color: currentColor;
+		cursor: pointer;
+		font:
+		{
+			size: .8rem;
+			weight: 500;
+		}
+		line-height: 30px;
+		opacity: .75;
+		text-align: center;
+		text-decoration: none;
+
+		&:hover
+		{
+			background: #{latte-rgba(var(--color-primary), .15)};
+			color: #{latte-rgb(var(--color-primary))};
+			opacity: 1;
+		}
+
+		&.is-active
+		{
+			background: #{latte-rgb(var(--color-primary))};
+			color: #{latte-rgb(var(--color-primary-foreground))};
+			cursor: default;
+			opacity: 1;
+			pointer-events: none;
+		}
+	}
+
+	span.pagination-item:not(.is-current)
+	{
+		cursor: default;
+		opacity: .5;
+		pointer-events: none;
+	}
+
+	@include compact
+	{
+		&.pagination-bar
+		{
+			flex-flow: column;
+
+			> div.d-flex:nth-child(1)
+			{
+				margin: 0 !important;
+				justify-content: center;
+			}
+
+			> div.d-flex:nth-child(2)
+			{
+				margin: .5rem 0 0 0 !important;
+				justify-content: center;
+			}
+		}
+	}
+}

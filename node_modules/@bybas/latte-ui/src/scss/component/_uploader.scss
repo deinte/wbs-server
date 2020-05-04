@@ -1,0 +1,61 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+.uploader input[type=file]
+{
+	display: none;
+}
+
+:root
+{
+	--drop-target-gutter: 6px;
+}
+
+.drop-target
+{
+	position: absolute;
+	display: flex;
+	top: var(--drop-target-gutter);
+	left: var(--drop-target-gutter);
+	right: var(--drop-target-gutter);
+	bottom: var(--drop-target-gutter);
+	align-items: center;
+	justify-content: center;
+	background: #{latte-rgba(var(--color-primary), .6)};
+	border: 2px dashed #{latte-rgb(var(--color-primary))};
+	border-radius: inherit;
+	box-shadow: 0 0 0 var(--drop-target-gutter) #{latte-rgba(var(--color-primary), .6)};
+	color: #{latte-rgb(var(--color-primary-foreground))};
+	pointer-events: none;
+	transition: all 300ms var(--ease-swift-out);
+
+	&:not(.is-dragging)
+	{
+		--drop-target-gutter: 0;
+		opacity: 0;
+	}
+
+	&.is-dragging-over
+	{
+		--drop-target-gutter: 9px;
+	}
+
+	.drop-target-info
+	{
+		position: sticky;
+		display: block;
+		top: 0;
+		bottom: 0;
+		padding: 1em;
+		font-size: .9rem;
+		font-weight: 500;
+		line-height: 1.6em;
+		text-align: center;
+	}
+}

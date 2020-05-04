@@ -1,0 +1,133 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--tabs-accent: var(--color-primary);
+	--tabs-accent-foreground: var(--color-primary-foreground);
+	--tabs-foreground: var(--main-foreground);
+	--tabs-height: 45px;
+}
+
+.nav.nav-tabs
+{
+	min-height: var(--tabs-height);
+	align-items: stretch;
+	flex-flow: row nowrap;
+
+	div.nav-tabs-indicator
+	{
+		position: absolute;
+		display: block;
+		left: 0;
+		bottom: 0;
+		height: 2px;
+		background: #{latte-rgb(var(--tabs-accent))};
+		transition: all 330ms var(--ease-swift-out);
+	}
+
+	&.is-over-outline
+	{
+		margin-bottom: -2px;
+		z-index: 1;
+
+		div.nav-tabs-indicator
+		{
+			bottom: -2px;
+		}
+	}
+
+	.nav-link
+	{
+		height: auto;
+		padding: 9px 6px;
+		justify-content: center;
+		color: #{latte-rgb(var(--tabs-foreground))};
+		font-weight: 500;
+		line-height: 24px;
+		opacity: .6;
+		transition: all 180ms var(--ease-swift-out);
+
+		+ .nav-link
+		{
+			margin-left: 18px;
+		}
+
+		#{unquote($latte-icon-class)}, span
+		{
+			flex: 0 0 auto;
+		}
+
+		#{unquote($latte-icon-class)} + span
+		{
+			margin-left: 15px;
+		}
+
+		&:hover
+		{
+			box-shadow: inset 0 -2px #{latte-rgb(var(--tabs-accent))};
+			opacity: .8;
+		}
+
+		&.is-active
+		{
+			box-shadow: inset 0 -2px #{latte-rgb(var(--tabs-accent))};
+			opacity: 1;
+		}
+
+		&.no-indicator
+		{
+			box-shadow: none;
+		}
+	}
+
+	&.tabs-fill .nav-link
+	{
+		flex: 1 1 0;
+	}
+}
+
+.panel > .nav.nav-tabs
+{
+	padding: 0 24px;
+	border-bottom: 2px solid #{latte-rgb(var(--outline-color-secondary))};
+
+	div.nav-tabs-indicator
+	{
+		bottom: -2px;
+	}
+
+	.nav-link
+	{
+		height: 54px;
+		margin-bottom: -2px;
+		z-index: 1;
+	}
+}
+
+.panel-header > .nav.nav-tabs
+{
+	margin-bottom: -2px;
+	z-index: 1;
+
+	&:first-child
+	{
+		margin-left: -6px;
+	}
+
+	&:last-child
+	{
+		margin-right: -6px;
+	}
+
+	.nav-link
+	{
+		min-height: 75px;
+	}
+}

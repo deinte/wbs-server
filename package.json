@@ -1,0 +1,21 @@
+{
+  "name": "wbs-server",
+  "version": "1.0.0",
+  "description": "W.H.O.ordenboekspel",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node server.js"
+  },
+  "author": "Dante Schrauwen <dante.schrauwen@givememedia.be> (GiveMeMedia)",
+  "license": "ISC",
+  "dependencies": {
+    "@bybas/latte-ui": "^1.8.3",
+    "bootstrap": "^3.4.1",
+    "colors": "^1.4.0",
+    "express": "^4.17.1",
+    "jquery": "^3.5.0",
+    "socket.io": "^2.3.0",
+    "vue": "^2.6.11"
+  }
+}

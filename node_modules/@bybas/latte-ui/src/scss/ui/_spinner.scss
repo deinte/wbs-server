@@ -1,0 +1,96 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--spinner-color: var(--color-primary);
+}
+
+@keyframes spinner-animation
+{
+	from
+	{
+		transform: rotate(0deg);
+	}
+	to
+	{
+		transform: rotate(360deg);
+	}
+}
+
+.spinner
+{
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: var(--icon-size);
+	vertical-align: middle;
+
+	+ span
+	{
+		margin-left: 1rem;
+	}
+}
+
+#{unquote($latte-icon-class)}.spinner
+{
+	display: inline-flex;
+	vertical-align: middle;
+}
+
+span.spinner::before,
+#{unquote($latte-icon-class)}.spinner::before
+{
+	display: block;
+	height: 1em;
+	width: 1em;
+	content: "";
+	animation: spinner-animation 540ms infinite linear;
+	border: .1em solid #{latte-rgba(var(--spinner-color), .25)};
+	border-top-color: #{latte-rgb(var(--spinner-color))};
+	border-radius: .5em;
+}
+
+@each $type in $theme-color-types
+{
+	.spinner-#{$type}
+	{
+		--spinner-color: var(--color-#{$type});
+	}
+}
+
+%inner-spinner
+{
+	& > .spinner
+	{
+		position: absolute;
+		display: none;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: #{latte-rgba(var(--panel-background), .9)};
+		border-radius: inherit;
+		font-size: 2rem;
+		z-index: 2;
+	}
+
+	&.is-loading > .spinner
+	{
+		display: flex;
+	}
+}
+
+.autocomplete,
+.form-group,
+.panel,
+main.auth-ui section#panel-view
+{
+	@extend %inner-spinner;
+}

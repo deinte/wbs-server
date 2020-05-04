@@ -1,0 +1,235 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--panel-background: 255, 255, 255;
+	--panel-elevation: var(--elevation-3);
+	--panel-elevation-hover: var(--elevation-9);
+	--panel-gutter: 30px;
+}
+
+.panel
+{
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	flex-flow: column;
+
+	&:not(.panel-blank)
+	{
+		box-shadow: var(--panel-elevation);
+	}
+
+	&:not(.panel-blank)
+	{
+		background: #{latte-rgb(var(--panel-background))};
+		border-radius: var(--border-radius);
+	}
+
+	&.panel-outline
+	{
+		--panel-elevation: 0 0 0 var(--divider-size) #{latte-rgb(var(--outline-color-secondary))};
+	}
+
+	+ .panel,
+	&.panel-gutter
+	{
+		margin-top: var(--panel-gutter);
+	}
+}
+
+.mt-panel-gutter
+{
+	margin-top: var(--panel-gutter);
+}
+
+.mb-panel-gutter
+{
+	margin-bottom: var(--panel-gutter);
+}
+
+a.panel
+{
+	cursor: pointer;
+	text-decoration: none;
+	transition: elevation-transition(330ms);
+
+	&:hover
+	{
+		--panel-elevation: var(--panel-elevation-hover);
+	}
+}
+
+.panel-body
+{
+	position: relative;
+	display: block;
+	padding: var(--panel-gutter);
+	flex: 1 1 auto;
+
+	+ .panel-body
+	{
+		border-top: var(--divider-size) solid #{latte-rgb(var(--outline-color-secondary))};
+	}
+}
+
+.panel-column
+{
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	flex-flow: column;
+}
+
+.panel-footer
+{
+	position: relative;
+	display: flex;
+	min-height: 60px;
+	padding: 0 var(--panel-gutter);
+	align-items: center;
+
+	&:not(:first-child)
+	{
+		border-top: var(--divider-size) solid #{latte-rgb(var(--outline-color-secondary))};
+	}
+
+	.divider
+	{
+		height: 24px;
+	}
+}
+
+.panel-header
+{
+	position: relative;
+	display: flex;
+	min-height: 75px;
+	padding: 0 var(--panel-gutter);
+	align-items: center;
+	flex: 0 0 auto;
+
+	&:not(:last-child)
+	{
+		border-bottom: var(--divider-size) solid #{latte-rgb(var(--outline-color-secondary))};
+	}
+
+	&.panel-header-sticky
+	{
+		position: sticky;
+		top: 0;
+		background: #{latte-rgb(var(--panel-background))};
+		z-index: 1;
+	}
+
+	.divider
+	{
+		height: 24px;
+	}
+}
+
+.panel-rich-media
+{
+	position: relative;
+	display: flex;
+	flex: 0 0 auto;
+	background:
+	{
+		color: inherit;
+		position: center center;
+		repeat: no-repeat;
+		size: cover;
+	}
+	border-radius: inherit;
+	overflow: hidden;
+
+	&:not(:first-child)
+	{
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	&:not(:last-child)
+	{
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	&.panel-rich-media-gutter
+	{
+		margin: calc(var(--panel-gutter) / 2);
+		width: calc(100% - var(--panel-gutter));
+		border-radius: inherit;
+	}
+}
+
+.panel-title
+{
+	position: relative;
+	display: block;
+	color: rgba(var(--color-dark), .75);
+	font-size: 1.1em;
+	font-weight: 700;
+}
+
+.panel-sub-title
+{
+	position: relative;
+	display: block;
+	color: rgba(var(--color-dark), .5);
+	font-weight: 600;
+}
+
+.panel.is-closed .panel-header
+{
+	border-bottom-color: transparent;
+}
+
+.panel-footer .btn.btn-text:first-child,
+.panel-header .btn.btn-text:first-child
+{
+	margin-left: -15px;
+}
+
+.panel-footer .btn.btn-text:last-child,
+.panel-header .btn.btn-text:last-child
+{
+	margin-right: -15px;
+}
+
+.panel-footer .btn.btn-icon:first-child,
+.panel-header .btn.btn-icon:first-child
+{
+	margin-left: -12px;
+}
+
+.panel-footer .btn.btn-icon:last-child,
+.panel-header .btn.btn-icon:last-child
+{
+	margin-right: -12px;
+}
+
+.panel-rich-media-gutter + .panel-body
+{
+	padding-top: calc(var(--panel-gutter) / 2);
+}
+
+.panel-rich-media-gutter + .panel-header
+{
+	margin-top: calc(var(--panel-gutter) / -2);
+}
+
+.panel-table
+{
+	display: block;
+	overflow: auto;
+
+	-webkit-overflow-scrolling: touch;
+}

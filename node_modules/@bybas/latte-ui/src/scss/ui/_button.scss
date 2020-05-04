@@ -1,0 +1,303 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--btn-alpha: 1;
+	--btn-background: var(--color-primary);
+	--btn-foreground: var(--color-primary-foreground);
+	--btn-font-size: 1rem;
+	--btn-height: 36px;
+	--btn-hover: 0;
+	--btn-padding: 6px 15px;
+}
+
+.btn
+{
+	position: relative;
+	display: inline-flex;
+	appearance: none;
+	height: var(--btn-height);
+	margin: 0;
+	padding: var(--btn-padding);
+	align-items: center;
+	flex-shrink: 0;
+	justify-content: center;
+	border: 0;
+	border-radius: var(--border-radius);
+	cursor: pointer;
+	font-size: var(--btn-font-size);
+	font-weight: 500;
+	text-align: center;
+	text-decoration: none;
+	transition: 150ms var(--ease-swift-out);
+	transition-property: background, color, --btn-alpha, --btn-hover;
+	vertical-align: middle;
+
+	& + .btn
+	{
+		margin-left: 6px;
+	}
+
+	&[disabled],
+	&.disabled
+	{
+		filter: grayscale(100%);
+		opacity: .5;
+		pointer-events: none;
+	}
+
+	#{unquote($latte-icon-class)} + span,
+	span + #{unquote($latte-icon-class)}
+	{
+		margin-left: 12px;
+	}
+
+	.avatar
+	{
+		margin: -3px;
+		font-size: 30px;
+	}
+}
+
+.btn-action
+{
+	--btn-height: 60px;
+
+	min-width: 90px;
+	align-items: center;
+	flex-flow: column;
+	justify-content: center;
+
+	#{unquote($latte-icon-class)} + span,
+	span + #{unquote($latte-icon-class)}
+	{
+		flex: 0 0 0;
+		margin-left: 0;
+		line-height: 1em;
+	}
+
+	span
+	{
+		margin-top: 4px;
+		font-size: .9rem;
+	}
+
+	&.flex-row
+	{
+		span
+		{
+			margin-top: 0;
+		}
+
+		#{unquote($latte-icon-class)} + span,
+		span + #{unquote($latte-icon-class)}
+		{
+			margin-left: .5rem;
+		}
+	}
+}
+
+.btn-contained
+{
+	--btn-bg: #{latte-rgb(var(--btn-background))};
+	--ripple-color: var(--btn-foreground);
+	--spinner-color: var(--btn-foreground);
+
+	background: var(--btn-bg);
+	color: #{latte-rgb(var(--btn-foreground))};
+
+	@at-root .css-paint-api &:not([href])
+	{
+		--btn-bg: paint(btn-background);
+	}
+
+	&:hover,
+	&:focus
+	{
+		--btn-hover: .1;
+	}
+
+	&:active
+	{
+		--btn-hover: .2;
+	}
+}
+
+.btn-outline
+{
+	--btn-bg: #{latte-rgba(var(--btn-background), var(--btn-alpha))};
+	--btn-alpha: 0;
+	--ripple-color: var(--btn-background);
+	--spinner-color: var(--btn-background);
+
+	background: var(--btn-bg);
+	box-shadow: inset 0 0 0 1px #{latte-rgba(var(--btn-background), .15)};
+	color: #{latte-rgb(var(--btn-background))};
+	transition-property: background, box-shadow, color, --btn-alpha, --btn-hover;
+
+	@at-root .css-paint-api &:not([href])
+	{
+		--btn-bg: paint(btn-background);
+	}
+
+	&:not(.is-ripple):hover,
+	&:not(.is-ripple):focus
+	{
+		--btn-alpha: .1;
+	}
+
+	&:not(.is-ripple):active
+	{
+		--btn-alpha: .2;
+		--btn-hover: .2;
+	}
+}
+
+.btn-soft
+{
+	--btn-bg: #{latte-rgba(var(--btn-background), var(--btn-alpha))};
+	--btn-alpha: .1;
+	--ripple-color: var(--btn-background);
+	--spinner-color: var(--btn-background);
+
+	background: var(--btn-bg);
+	color: #{latte-rgb(var(--btn-background))};
+
+	@at-root .css-paint-api &:not([href])
+	{
+		--btn-bg: paint(btn-background);
+	}
+
+	&:hover,
+	&:focus
+	{
+		--btn-alpha: 1;
+		--btn-hover: .1;
+		--spinner-color: var(--btn-foreground);
+
+		color: #{latte-rgb(var(--btn-foreground))};
+	}
+
+	&:active
+	{
+		--btn-alpha: 1;
+		--btn-hover: .2;
+	}
+}
+
+.btn-text
+{
+	--btn-bg: #{latte-rgba(var(--btn-background), var(--btn-alpha))};
+	--btn-alpha: 0;
+	--ripple-color: var(--btn-background);
+	--spinner-color: var(--btn-background);
+
+	background: var(--btn-bg);
+	color: #{latte-rgb(var(--btn-background))};
+
+	@at-root .css-paint-api &:not([href])
+	{
+		--btn-bg: paint(btn-background);
+	}
+
+	&:not(.is-ripple):hover,
+	&:not(.is-ripple):focus
+	{
+		--btn-alpha: .1;
+	}
+
+	&:not(.is-ripple):active
+	{
+		--btn-alpha: .2;
+	}
+
+	&.btn-icon.is-ripple
+	{
+		background: transparent;
+	}
+}
+
+.btn-lg
+{
+	--btn-height: 48px;
+	--btn-padding: 9px 24px;
+}
+
+.btn-sm
+{
+	--btn-height: 24px;
+	--btn-font-size: .9rem;
+	--btn-padding: 0 9px;
+	--icon-size: 18px;
+}
+
+.btn-fab
+{
+	--border-radius: 28px;
+	--btn-height: 56px;
+	--btn-padding: 16px;
+
+	width: var(--btn-height);
+	box-shadow: var(--elevation-8);
+}
+
+.btn-icon
+{
+	--btn-padding: 6px;
+	width: var(--btn-height);
+
+	&.btn-sm
+	{
+		--btn-padding: 3px;
+	}
+}
+
+.btn-text.btn-icon
+{
+	--ripple-center: true;
+	--ripple-clip: false;
+	--ripple-duration: 240ms;
+}
+
+.btn-pill
+{
+	--btn-height: 54px;
+
+	display: flex;
+	margin-left: 0 !important;
+	width: 100%;
+	flex: 1 1 auto;
+}
+
+.panel > .btn-pill
+{
+	border-radius: inherit;
+
+	&:first-child
+	{
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	&:last-child
+	{
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+}
+
+@each $type in $theme-color-types
+{
+	.btn-#{$type}
+	{
+		--btn-background: var(--color-#{$type});
+		--btn-foreground: var(--color-#{$type}-foreground);
+	}
+}

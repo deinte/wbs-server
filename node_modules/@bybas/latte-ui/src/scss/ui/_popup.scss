@@ -1,0 +1,277 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--popup-background: 255, 255, 255;
+	--popup-elevation: var(--elevation-16), 0 0 0 1px #{latte-rgb(var(--outline-color-secondary))};
+}
+
+.popup
+{
+	position: fixed;
+	display: block;
+	top: 0;
+	left: 0;
+	background: #{latte-rgb(var(--popup-background))};
+	border-radius: var(--border-radius);
+	box-shadow: var(--popup-elevation);
+	opacity: 0;
+	pointer-events: none;
+	transition: 210ms var(--ease-swift-out);
+	transition-property: opacity, transform;
+	z-index: 3000;
+
+	&.no-transform-animation
+	{
+		transition-property: opacity;
+	}
+
+	&.is-open
+	{
+		opacity: 1;
+		pointer-events: all;
+	}
+
+	&.arrow
+	{
+		&::after,
+		&::before
+		{
+			position: absolute;
+			display: block;
+			content: "";
+			border: solid transparent;
+			z-index: -1;
+		}
+
+		&::after
+		{
+			border-width: 8px;
+		}
+
+		&::before
+		{
+			border-width: 9px;
+		}
+
+		&.horizontal
+		{
+			&::after
+			{
+				margin: 1px 0;
+				border-left-color: #{latte-rgb(var(--panel-background))};
+				border-right-color: #{latte-rgb(var(--panel-background))};
+			}
+
+			&::before
+			{
+				border-left-color: #{latte-rgb(var(--outline-color))};
+				border-right-color: #{latte-rgb(var(--outline-color))};
+			}
+
+			&.left
+			{
+				margin: 0 -1px 0 0;
+			}
+
+			&.left.above
+			{
+				&::after,
+				&::before
+				{
+					bottom: 18px;
+					border-left: 0;
+				}
+
+				&::after
+				{
+					left: -8px;
+				}
+
+				&::before
+				{
+					left: -9px;
+				}
+			}
+
+			&.right.above
+			{
+				&::after,
+				&::before
+				{
+					bottom: 18px;
+					border-right: 0;
+				}
+
+				&::after
+				{
+					right: -8px;
+				}
+
+				&::before
+				{
+					right: -9px;
+				}
+			}
+
+			&.left.under
+			{
+				&::after,
+				&::before
+				{
+					top: 18px;
+					border-left: 0;
+				}
+
+				&::after
+				{
+					left: -8px;
+				}
+
+				&::before
+				{
+					left: -9px;
+				}
+			}
+
+			&.right.under
+			{
+				&::after,
+				&::before
+				{
+					top: 18px;
+					border-right: 0;
+				}
+
+				&::after
+				{
+					right: -8px;
+				}
+
+				&::before
+				{
+					right: -9px;
+				}
+			}
+		}
+
+		&.vertical
+		{
+			&::after
+			{
+				margin: 0 1px;
+				border-top-color: #{latte-rgb(var(--panel-background))};
+				border-bottom-color: #{latte-rgb(var(--panel-background))};
+			}
+
+			&::before
+			{
+				border-top-color: #{latte-rgb(var(--outline-color))};
+				border-bottom-color: #{latte-rgb(var(--outline-color))};
+			}
+
+			&.above
+			{
+				margin: -1px 0 0 0;
+			}
+
+			&.left.above
+			{
+				&::after,
+				&::before
+				{
+					left: 18px;
+					border-bottom: 0;
+				}
+
+				&::after
+				{
+					bottom: -8px;
+				}
+
+				&::before
+				{
+					bottom: -9px;
+				}
+			}
+
+			&.right.above
+			{
+				&::after,
+				&::before
+				{
+					right: 18px;
+					border-bottom: 0;
+				}
+
+				&::after
+				{
+					bottom: -8px;
+				}
+
+				&::before
+				{
+					bottom: -9px;
+				}
+			}
+
+			&.left.under
+			{
+				&::after,
+				&::before
+				{
+					left: 18px;
+					border-top: 0;
+				}
+
+				&::after
+				{
+					top: -8px;
+				}
+
+				&::before
+				{
+					top: -9px;
+				}
+			}
+
+			&.right.under
+			{
+				&::after,
+				&::before
+				{
+					right: 18px;
+					border-top: 0;
+				}
+
+				&::after
+				{
+					top: -8px;
+				}
+
+				&::before
+				{
+					top: -9px;
+				}
+			}
+		}
+	}
+}
+
+.popup-body
+{
+	position: relative;
+	display: block;
+	max-height: 50vh;
+	border-radius: inherit;
+	overflow: auto;
+
+	-webkit-overflow-scrolling: touch;
+}

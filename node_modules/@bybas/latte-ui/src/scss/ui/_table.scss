@@ -1,0 +1,205 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--table-padding: 12px 24px;
+}
+
+table.table
+{
+	width: 100%;
+	z-index: 0;
+
+	$border: 1px solid #{latte-rgb(var(--outline-color-secondary))};
+	$hover-bg: #{latte-rgba(var(--outline-color-secondary), .5)};
+
+	&.table-border
+	{
+		td,
+		th
+		{
+			border: $border;
+		}
+	}
+
+	&.table-compact
+	{
+		--table-padding: 6px 15px;
+	}
+
+	tr
+	{
+		position: relative;
+
+		@supports not (-moz-appearance: none)
+		{
+			height: 1px;
+		}
+	}
+
+	td,
+	th
+	{
+		height: inherit;
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		vertical-align: middle;
+	}
+
+	tr:not(:first-child) td,
+	tr:not(:first-child) th
+	{
+		border-top: $border;
+	}
+
+	tbody tr:hover td,
+	tbody tr:hover th
+	{
+		background: $hover-bg;
+	}
+
+	.column-content
+	{
+		display: flex;
+		height: 100%;
+		margin: 0;
+		padding: var(--table-padding);
+		flex-flow: column;
+		justify-content: center;
+		vertical-align: middle;
+		transition: background 90ms var(--ease-swift-out);
+
+		*
+		{
+			vertical-align: middle;
+		}
+	}
+
+	tfoot .column-content,
+	thead .column-content
+	{
+		padding: var(--table-padding);
+		font-weight: 500;
+	}
+
+	tfoot tr:first-child .column-content
+	{
+		border-top: $border;
+	}
+
+	tbody input.column-content
+	{
+		height: 100%;
+		padding: var(--table-padding);
+		background: transparent;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+
+		&:hover,
+		&:focus
+		{
+			background: $hover-bg;
+			box-shadow: none;
+		}
+	}
+
+	tbody select.column-content
+	{
+		height: 100%;
+		padding: var(--table-padding);
+		background-color: transparent;
+		border: 0;
+		border-radius: 0;
+		box-shadow: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		&:hover,
+		&:focus
+		{
+			background-color: $hover-bg;
+			box-shadow: none;
+		}
+	}
+
+	a.column-content
+	{
+		color: #{latte-rgb(var(--main-foreground))};
+		cursor: pointer;
+		text-decoration: none;
+
+		&:hover
+		{
+			background: $hover-bg;
+		}
+	}
+
+	th.actions,
+	td.actions
+	{
+		.btn + .btn
+		{
+			margin-left: 4px;
+		}
+	}
+
+	tr.search-row
+	{
+		position: relative;
+
+		td,
+		th
+		{
+			background: #{latte-rgb(var(--outline-color-secondary))};
+			border-top: 1px solid #{latte-rgb(var(--outline-color))};
+			border-bottom: 1px solid #{latte-rgb(var(--outline-color))};
+		}
+
+		input
+		{
+			display: block;
+			padding: var(--table-padding);
+			width: 100%;
+			background: transparent;
+			border: 0;
+			color: #{latte-rgb(var(--main-foreground))};
+			font-weight: 500;
+			outline: none;
+
+			&::placeholder
+			{
+				color: var(--main-placeholder);
+			}
+		}
+	}
+
+	.column-content nav.pagination
+	{
+		position: sticky;
+		right: 21px;
+	}
+
+	&.table-sticky thead tr:first-child th
+	{
+		position: sticky;
+		top: 0;
+		z-index: 10;
+
+		.column-content
+		{
+			margin-top: -1px;
+			margin-bottom: -2px;
+			background: #{latte-rgb(var(--panel-background))};
+			border-bottom: $border;
+		}
+	}
+}

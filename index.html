@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+    <title>Woordenboekspel</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<main id="app">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="/docs/4.4/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="">
+            {{ room.roomName }}
+        </a>
+        <a href="">
+            {{ error }}
+        </a>
+        <!--
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        -->
+    </nav>
+    <section v-if="state == 'start'">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Nieuwe kamer maken</h5>
+                            <p class="card-text">Maak een kamer</p>
+                            <a href="#" class="btn btn-primary" @click="makeRoomBtn">Make a room</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Join een kamer</h5>
+                            <p class="card-text">Kamer joinen.</p>
+                            <a href="#" class="btn btn-primary" @click="joinRoomBtn">Join</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section v-if="state == 'makeRoom'">
+        <div class="container">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form @submit.prevent="makeRoom">
+                            <div class="form-group">
+                                <label>Naam</label>
+                                <input type="text" class="form-control" v-model:value="username">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="text" class="form-control" v-model:value="password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section v-if="state == 'joinRoom'">
+        <div class="container">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form @submit.prevent="joinRoom">
+                            <div class="form-group">
+                                <label>Naam</label>
+                                <input type="text" class="form-control" v-model:value="username">
+                            </div>
+                            <div class="form-group">
+                                <label>Room to join</label>
+                                <input type="text" class="form-control" v-model:value="roomToJoin">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="text" class="form-control" v-model:value="password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section v-if="state == 'room'">
+        <ul>
+            <li v-for="player in players">
+                <svg v-if="room.roomOwner.username === player.username" class="bi bi-award-fill" width="10px"
+                     height="10px" viewBox="0 0 16 16" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 0l1.669.864 1.858.282.842 1.68 1.337 1.32L13.4 6l.306 1.854-1.337 1.32-.842 1.68-1.858.282L8 12l-1.669-.864-1.858-.282-.842-1.68-1.337-1.32L2.6 6l-.306-1.854 1.337-1.32.842-1.68L6.331.864 8 0z"/>
+                    <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+                </svg>
+                {{ player.username }}
+            </li>
+        </ul>
+    </section>
+</main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let socket = null;
+
+    let app = new Vue({
+        el: "#app",
+        data: {
+            room: 'Geen room',
+            state: 'start',
+            username: '',
+            password: '',
+            roomToJoin: '',
+            players: [],
+            error: '',
+        },
+        methods: {
+            makeRoomBtn: function () {
+                app.state = "makeRoom"
+            },
+            joinRoomBtn: function () {
+                app.state = "joinRoom"
+            },
+            makeRoom: function () {
+                socket.emit('createRoom', {
+                    username: this.username,
+                    roomPassword: this.password,
+                });
+                app.password = '';
+            },
+            joinRoom: function () {
+                console.log("Join room event");
+                socket.emit('joinRoom', {
+                    username: this.username,
+                    roomName: this.roomToJoin,
+                    password: this.password
+                });
+            }
+        },
+        created: function () {
+            socket = io();
+        },
+        mounted: function () {
+            socket.on('checkSession', data => {
+                if (getCookie('currentPlayer') !== undefined && getCookie('currentRoom') !== undefined) {
+                    console.log("There was an session, trying to restore");
+                    socket.emit('resumeSession', {
+                        user: JSON.parse(getCookie('currentPlayer')),
+                        room: JSON.parse(getCookie('currentRoom'))
+                    });
+                } else {
+                    console.log("No previous session.");
+                }
+            });
+            socket.on('joinedRoom', (data) => {
+                app.room = data.room;
+                app.players = data.room.players;
+                console.log(app.players);
+                app.state = 'room';
+                try {
+                    setCookie("currentPlayer", JSON.stringify(data.player), 1);
+                    setCookie("currentRoom", JSON.stringify(data.room), 1);
+                }
+                catch(ex) {
+                    console.log(ex);
+                }
+                // Todo change room of users
+            });
+            socket.on('newPlayer', data => {
+                console.log(data);
+                app.room = data;
+                app.players = data.players;
+            });
+            socket.on('playerLeft', room => {
+                console.log(room);
+                app.room = room;
+                app.players = app.room.players;
+                //app.room.players.splice(player);
+            });
+            socket.on('loadPlayers', (data) => {
+                data.forEach((player) => {
+                    app.players.push(player.username);
+                })
+            });
+            socket.on('err', (data) => {
+                app.error = data;
+                console.log(data);
+            });
+
+        }
+    });
+
+
+    function setCookie(cname, cvalue, exdays) {
+        let d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--overlay-background: var(--color-dark);
+	--overlay-opacity: .65;
+}
+
+div.overlay
+{
+	$anim-duration: 210ms;
+	$anim-delay: $anim-duration / 2;
+
+	position: fixed;
+	display: none;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 48px;
+	background: rgba(var(--overlay-background), var(--overlay-opacity));
+	opacity: 1;
+	overflow: auto;
+	transition: all $anim-duration var(--ease-swift-out);
+	z-index: 2000;
+
+	-webkit-overflow-scrolling: touch;
+
+	.panel
+	{
+		opacity: 1;
+		transform: none;
+		transition: inherit;
+		transition-delay: $anim-delay;
+	}
+
+	> .panel
+	{
+		margin: auto;
+	}
+
+	&.is-open
+	{
+		pointer-events: all;
+	}
+
+	&.is-visible
+	{
+		display: flex;
+	}
+
+	&:not(.is-open)
+	{
+		opacity: 0;
+		transition-delay: $anim-delay;
+
+		.panel
+		{
+			opacity: 0;
+			transform: scale3d(.95, .95, .95);
+			transition-delay: 0ms;
+		}
+	}
+
+	@include compact
+	{
+		padding: 12px;
+
+		&.is-responsive
+		{
+			padding: 0;
+
+			.panel
+			{
+				min-height: 100% !important;
+				width: 100% !important;
+				border-radius: 0;
+				z-index: 0;
+
+				div.panel-header:first-child
+				{
+					position: sticky;
+					top: 0;
+					background: #{latte-rgb(var(--panel-background))};
+					z-index: 2;
+				}
+
+				div.panel-footer:last-child
+				{
+					position: sticky;
+					bottom: 0;
+					background: #{latte-rgb(var(--panel-background))};
+					z-index: 2;
+				}
+			}
+		}
+	}
+}

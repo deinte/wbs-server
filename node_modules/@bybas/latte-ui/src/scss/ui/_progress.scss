@@ -1,0 +1,96 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+:root
+{
+	--progress-color: var(--color-primary);
+}
+
+@keyframes wave-animation
+{
+	from
+	{
+		left: -12.5%;
+	}
+
+	to
+	{
+		left: 112.5%;
+	}
+}
+
+@keyframes wave-ring-animation
+{
+	from
+	{
+		transform: rotate3d(0, 0, 1, 0deg);
+	}
+
+	to
+	{
+		transform: rotate3d(0, 0, 1, 360deg);
+	}
+}
+
+.progress
+{
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+
+	&.progress-bar
+	{
+		height: 6px;
+		width: 100%;
+		background: #{latte-rgba(var(--progress-color), .25)};
+		border-radius: var(--border-radius);
+
+		.progress-value
+		{
+			position: absolute;
+			display: block;
+			top: 0;
+			left: 0;
+			height: inherit;
+			background: #{latte-rgb(var(--progress-color))};
+			border-radius: var(--border-radius);
+		}
+
+		&.is-indeterminate .progress-value
+		{
+			margin-left: -12.5%;
+			width: 25%;
+			animation: wave-animation 1200ms infinite linear;
+		}
+	}
+
+	&.progress-ring
+	{
+		border-radius: 999px;
+		transform: rotate3d(0, 0, 1, -90deg);
+
+		.progress-track
+		{
+			stroke: #{latte-rgba(var(--progress-color), .25)};
+		}
+
+		.progress-value
+		{
+			transform-origin: center center;
+			stroke: #{latte-rgb(var(--progress-color))};
+		}
+
+		&.is-indeterminate .progress-value
+		{
+			animation: wave-ring-animation 540ms infinite linear;
+			stroke: url(#wave);
+		}
+	}
+}

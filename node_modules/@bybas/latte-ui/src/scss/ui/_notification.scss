@@ -1,0 +1,150 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+div.notification
+{
+	position: relative;
+	display: flex;
+	width: 360px;
+	align-items: center;
+	background: #{latte-rgb(var(--panel-background))};
+	border-radius: var(--border-radius);
+	box-shadow: var(--panel-elevation-hover);
+	transition: 420ms var(--ease-swift-out);
+	transition-property: top, opacity, transform;
+
+	@include compact
+	{
+		width: calc(100vw - 48px);
+	}
+
+	&.is-app-notification
+	{
+		position: fixed;
+		top: 0;
+		right: 24px;
+	}
+
+	&.is-opening
+	{
+		opacity: 0;
+		transform: translate3d(0, 48px, 0);
+	}
+
+	&.is-closing
+	{
+		opacity: 0;
+	}
+}
+
+span.notification-title
+{
+	position: relative;
+	display: block;
+	color: #{latte-rgb(var(--main-foreground))};
+	font-size: 1.1em;
+	font-weight: 700;
+}
+
+span.notification-text
+{
+	position: relative;
+	display: block;
+
+	span.notification-title + &
+	{
+		margin-top: 3px;
+	}
+}
+
+div.notification-content
+{
+	position: relative;
+	display: flex;
+	flex-flow: column;
+}
+
+div.notification-actions
+{
+	position: relative;
+	display: flex;
+	padding: 24px 9px;
+	align-items: center;
+	flex-flow: row wrap;
+
+	&:not(:first-child)
+	{
+		margin-top: -12px;
+		padding-top: 0;
+	}
+}
+
+div.notification-body
+{
+	position: relative;
+	display: flex;
+	padding: 24px;
+	flex-flow: column;
+}
+
+div.notification-icon
+{
+	position: relative;
+	display: block;
+	height: 60px;
+	margin: 24px;
+	width: 60px;
+	align-self: flex-start;
+	background: var(--notification-background, black);
+	border-radius: 30px;
+	color: var(--notification-foreground, white);
+
+	#{unquote($latte-icon-class)}
+	{
+		display: block;
+		margin: 18px;
+	}
+
+	&:first-child
+	{
+		margin-right: 0;
+	}
+
+	&:last-child
+	{
+		margin-left: 0;
+	}
+}
+
+div.notification > .avatar
+{
+	margin: 24px;
+	align-self: flex-start;
+	flex: 0 0 auto;
+	font-size: 60px;
+
+	&:first-child
+	{
+		margin-right: 0;
+	}
+
+	&:last-child
+	{
+		margin-left: 0;
+	}
+}
+
+@each $type in map-keys($theme-colors)
+{
+	.notification-#{$type}
+	{
+		--notification-background: #{latte-rgb(var(--color-#{$type}))};
+		--notification-foreground: #{latte-rgb(var(--color-#{$type}-foreground))};
+	}
+}

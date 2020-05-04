@@ -1,0 +1,99 @@
+/*!
+ * Copyright (c) 2018-2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Latte UI package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
+div.notice
+{
+	position: relative;
+	display: flex;
+	margin: -1px;
+	padding: 15px 24px;
+	align-items: center;
+	background: #{latte-rgba(var(--notice-background), .1)};
+	border: 1px solid #{latte-rgba(var(--notice-background), .1)};
+	border-radius: var(--border-radius);
+	color: #{latte-rgb(var(--notice-background))};
+	font-weight: 500;
+
+	&.notice-outline
+	{
+		background: transparent;
+		border: 1px dashed #{latte-rgba(var(--notice-background), .5)};
+	}
+
+	.btn
+	{
+		--btn-background: var(--notice-background);
+		--btn-foreground: var(--notice-foreground);
+	}
+
+	> #{unquote($latte-icon-class)}
+	{
+		margin: -1px 0;
+		align-self: flex-start;
+
+		&:not(:last-child)
+		{
+			margin-right: 24px;
+		}
+	}
+
+	.btn.notice-dismiss
+	{
+		margin: -7px -15px -7px auto;
+		align-self: flex-start;
+	}
+
+	p:last-of-type
+	{
+		margin-bottom: 0;
+	}
+
+	.divider
+	{
+		margin: 15px 0;
+		align-self: stretch;
+		flex: 1 1 auto;
+		opacity: .1;
+
+		--outline-color: var(--notice-background);
+	}
+
+	+ div.notice
+	{
+		margin-top: 1rem;
+	}
+}
+
+@each $type in map-keys($theme-colors)
+{
+	.notice-#{$type}
+	{
+		--notice-background: var(--color-#{$type});
+		--notice-foreground: var(--color-#{$type}-foreground);
+	}
+}
+
+.panel > .notice
+{
+	margin: -1px 0;
+	padding: 18px 30px;
+	border-left: 0;
+	border-right: 0;
+	border-radius: 0;
+
+	&:first-child
+	{
+		border-radius: var(--border-radius) var(--border-radius) 0 0;
+	}
+
+	&:last-child
+	{
+		border-radius: 0 0 var(--border-radius) var(--border-radius);
+	}
+}
