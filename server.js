@@ -140,6 +140,11 @@ io.on('connection', (socket) => {
             socket.emit('err', 'Room not found, you could create one or join another room.')
         }
     });
+    /**
+     * startGame
+     * First player in the room will have the first turn
+     * He/she will be asked to fill in a word
+     */
     socket.on('startGame', (data) => {
         console.log("startGame");
         let roomIndex = game.getRoomIndexByName(data.roomName);
@@ -150,15 +155,21 @@ io.on('connection', (socket) => {
             console.log("ERROR: ".red + "Kamer niet gevonden.")
         }
     });
-    socket.on('updateTurn', (data) => {
+    /**
+     * updateTurn
+     */
+    socket.on('submitWord', (data) => {
         console.log(data);
-        let roomIndex = game.getRoomIndexByName(data.roomName);
+        let roomIndex = game.getRoomIndexByName(data.data.roomName);
         if(game.rooms[roomIndex] != undefined) {
-            game.rooms[roomIndex].currentTurn.currentWord = data.turnWord;
-            // TODO Socket.username != username. Dit moet dus nog aangepast worden met een extra functie in Game
-            // game.getUsernameBySocketId(socket.id);
-            game.rooms[roomIndex].currentTurn.answers.push(new Answer(data.turnMeaning, socket.username));
-            console.log(game.rooms[roomIndex].currentTurn);
+            game.rooms[roomIndex].currentTurn.word = data.word;
+            game.rooms[roomIndex].currentTurn.meaning = data.meaning;
+            game.rooms[roomIndex].currentTurn.answers.push(new Answer(data.meaning, data.data.username));
+            //console.log(game.rooms[roomIndex].currentTurn);
+            io.in(game.rooms[roomIndex].roomName).emit('wordSubmitted', {
+                word: data.turnWord,
+                playerUsername: data.data.username
+            });
         } else {
             console.log("ROOM: ".red + " Room was undefined");
         }

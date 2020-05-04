@@ -1,7 +1,8 @@
 class Turn {
-    turnPlayer = null;
+    player = null;
     answers = [];
-    currentWord = null;
+    word = null;
+    meaning = null;
 
     constructor(turnPlayer) {
         this.turnPlayer = turnPlayer;
